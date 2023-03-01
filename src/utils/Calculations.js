@@ -1,6 +1,7 @@
-import { createRegExp, exactly, groupeAs } from "magic-regexp";
+import { createRegExp, exactly } from "magic-regexp";
+import Converter from "./Converter";
 
-class Calculator {
+class Calculator extends Converter {
   add(value1, value2) {
     return Number(value1) + Number(value2);
   }
@@ -22,15 +23,19 @@ class Calculator {
     return Number(value1) % Number(value2);
   }
 
-  formatExpression(expression) {
+  _formatExpression(expression) {
     const regExp = createRegExp(
       exactly("+").or("-").or("/").or("%").or("*").grouped()
     );
 
-    console.log({ regExp });
     const expressionComponents = expression.trim().split(regExp);
-    console.log(expressionComponents);
-    return expressionComponents;
+    return expressionComponents.filter((el) => el !== "");
+  }
+
+  evaluate(expression) {
+    const RNPExpression = this.toRPN(this._formatExpression(expression));
+    console.log({ RNPExpression });
+    return RNPExpression;
   }
 }
 
