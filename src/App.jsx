@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./App.css";
 import Button from "./components/Button";
 import calculator from "./utils/Calculations";
 import validations from "./utils/Validations";
@@ -25,7 +24,8 @@ function App() {
           newValue = prev;
           return prev;
         }
-      } else return prev;
+      }
+      return prev;
     });
   }
 
