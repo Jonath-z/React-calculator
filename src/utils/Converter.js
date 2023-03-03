@@ -3,7 +3,13 @@ import { createRegExp, exactly } from "magic-regexp";
 class Converter {
   operators = [];
   output = [];
-  precedence = { "*": 2, "/": 2, "+": 1, "-": 1, "%": 0 };
+  precedence = { "*": 2, "/": 2, "+": 1, "-": 1, "%": 1 };
+
+  isNotNumber(token) {
+    return createRegExp(exactly("+").or("-").or("/").or("%").or("*")).test(
+      token
+    );
+  }
 
   _shouldPlaceToTheRightPrecedenceOrder(nextToken) {
     if (this.operators.length === 0) return false;
@@ -15,9 +21,7 @@ class Converter {
     for (let i = 0; i < expressionSet.length; i++) {
       const token = expressionSet[i];
 
-      if (
-        createRegExp(exactly("+").or("-").or("/").or("%").or("*")).test(token)
-      ) {
+      if (this.isNotNumber(token)) {
         while (this._shouldPlaceToTheRightPrecedenceOrder(token)) {
           this.output.push(this.operators.pop());
         }
@@ -27,7 +31,7 @@ class Converter {
       }
     }
 
-    for (let i = this.operators.length; i >= 0; i--) {
+    for (let i = this.operators.length - 1; i >= 0; i--) {
       this.output.push(this.operators[i]);
     }
 
