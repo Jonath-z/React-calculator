@@ -1,6 +1,6 @@
 # Basic calculator app
 
-A basic calculator that uses reverse polish notation for evaluating the arthmetic operation.
+A basic calculator that uses reverse polish notation for evaluating arthmetic operations.
 
 ![preview](preview.png)
 
